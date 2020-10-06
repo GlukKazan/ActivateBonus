@@ -1,0 +1,54 @@
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <a href="/auth" class="pull-right">Авторизация</a>
+                <div class="registre-form">
+                    <form [formGroup]="registerForm" novalidate (ngSubmit)="submit()">
+                        <div class="form-group">
+                            <label>ФИО</label>
+                            <input type="text" formControlName="fio"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fio.errors }" />
+                            <div *ngIf="submitted && f.fio.errors" class="invalid-feedback">
+                                <div *ngIf="f.fio.errors.required">Введите ФИО</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Логин</label>
+                            <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"/>
+                            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                <div *ngIf="f.username.errors.required">Введите логин</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Пароль</label>
+                            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                <div *ngIf="f.password.errors.required">Введите пароль</div>
+                                <div *ngIf="f.password.errors.minlength">Пароль должен быть не меньше 8 символов</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Подтверждение</label>
+                            <input type="password" formControlName="confirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"/>
+                            <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
+                                <div *ngIf="f.confirm.errors.required">Введите подтверждение пароля</div>
+                                <div *ngIf="f.confirm.errors.mustMatch">Подтверждение должно совпадать с паролем</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>EMail</label>
+                            <input type="text" formControlName="mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }"/>
+                            <div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
+                                <div *ngIf="f.mail.errors.required">Введите EMail</div>
+                                <div *ngIf="f.mail.errors.email">Некорректный Email адрес</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Зарегестрироваться</button>
+                        </div>
+                    </form>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>
