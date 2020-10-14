@@ -10,6 +10,6 @@ export class RegService {
   constructor(private http: HttpClient) { }
 
   addUser(user: any): Observable<Object> {
-    return this.http.post(this.url, {"name": user.fio, "is_admin": 0, "username": user.username, "password": user.password, "email": user.mail});
+    return this.http.post(this.url, {"realm": 2, "name": user.fio, "is_admin": 0, "username": user.username, "password": user.password, "email": user.mail});
   }
 }

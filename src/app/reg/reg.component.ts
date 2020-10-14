@@ -47,7 +47,7 @@ export class RegComponent implements OnInit {
       },
       (error: any) => {
         let status = error.status;
-        if (status == 500) {
+        if (status == 409) {
             alert("Пользователь уже существует");
         } else {
             alert("Error: " + status);
