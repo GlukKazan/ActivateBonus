@@ -11,8 +11,20 @@
                          [(ngModel)]="bonus"
                          #bon="ngModel"
                          required
+                         pattern="[0-9A-F]{16}"
                      />
                 </div>
+                <div *ngIf="done">
+                  <div *ngIf="success">
+                     <p [ngClass]="{correct: !activated, incorrect:activated}">Бонус активирован</p>
+                     <div *ngIf="activated">
+                        <p [ngClass]="{incorrect: true}">{{ activated | date: 'dd.MM.yyyy HH:mm' }}</p>
+                     </div>    
+                  </div>    
+                  <div *ngIf="!success">
+                     <p [ngClass]="{incorrect: true}">Бонус не найден</p>
+                  </div>    
+                </div>    
                 <div class="form-group">
                     <button
                          class="btn btn-primary"
