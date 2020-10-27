@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { JwtGuard } from './jwt.guard';
 import { BonusModule } from './bonus/bonus.module';
 import { JwtInterceptor } from './jwt.interceptor';
+import { LaunchModule } from './launch/launch.module';
+import { JoinModule } from './join/join.module';
+import { WatchModule } from './watch/watch.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { JwtInterceptor } from './jwt.interceptor';
     HttpClientModule,
     AuthModule,
     RegModule,
-    BonusModule
+    BonusModule,
+    LaunchModule,
+    JoinModule,
+    WatchModule
   ],
   providers: [
     AuthService,
