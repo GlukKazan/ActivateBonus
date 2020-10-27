@@ -31,7 +31,11 @@ export class AuthComponent implements OnInit {
         localStorage.setItem('myAuthToken', data.access_token);
 //      localStorage.setItem('myRefreshToken', data.refresh_token);
         localStorage.setItem('myRole', data.role);
-        this.router.navigate(['bonus']);
+        if (data.realm == 2) {
+          this.router.navigate(['bonus']);
+        } else {
+          this.router.navigate(['launch']);
+        }
       },
       (error: any) => {
         let status = error.status;
