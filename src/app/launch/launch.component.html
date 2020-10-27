@@ -1,0 +1,77 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th style="width: 10%">
+          <b>Launch</b>
+        </th>
+        <th style="width: 10%">
+          <a href="/join">Join</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/watch">Watch</a>
+        </th>
+        <th style="width: 90%">
+          <a href="/">Logout</a>
+        </th>
+      </tr>
+    </thead>
+</table>
+  
+<h3>Launch game</h3>
+<table class="table table-striped">
+    <tr>
+        <td>
+          <div *ngIf="preview">
+            <img src="api/upload/{{preview}}.png"/>
+          </div>    
+        </td>
+        <td>
+            <div class="jumbotron">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <div class="launch-form">
+                                <div class="form-group">
+                                    <label>Game</label>
+                                    <select class="form-control" name="curr_game" [(ngModel)]="curr_game" (change)="gameChanged()">
+                                        <option *ngFor="let it of games" [value]="it.id">
+                                            {{ it.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="variants.length" class="form-group">
+                                  <label>Variant</label>
+                                  <select class="form-control" name="curr_var" [(ngModel)]="curr_var" (change)="varChanged()">
+                                      <option *ngFor="let it of variants" [value]="it.id">
+                                          {{ it.name }}
+                                      </option>
+                                  </select>
+                                </div>
+                                <div *ngIf="max_selector" class="form-group">
+                                  <label>Setup</label>
+                                  <select class="form-control" name="selector" [(ngModel)]="selector">
+                                      <option *ngFor="let it of getSelectors()" [value]="it">
+                                          {{ it }}
+                                      </option>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <label>Player</label>
+                                  <select class="form-control" name="player_num" [(ngModel)]="player_num">
+                                    <option *ngFor="let it of getPlayers()" [value]="it">
+                                        Player {{ it }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="form-group">
+                                  <button class="btn btn-primary" (click)="submit()">Launch</button> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
