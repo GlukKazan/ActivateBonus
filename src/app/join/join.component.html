@@ -17,3 +17,29 @@
     </thead>
 </table>
 
+<h3>Join to session</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>Date</td>
+      <td>Game</td>
+      <td>Player</td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let it of sessions">
+      <td>{{it.created | date: 'dd/MM/yyyy'}}</td>
+      <td>{{it.game}}</td>
+      <td>{{it.player_name}} ({{it.player_num}})</td>
+      <td>
+        <input
+        type="button"
+        value="Join"
+        (click)="join(it)"
+        class="btn btn-success"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
