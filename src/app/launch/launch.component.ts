@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Game } from './game';
+import { Game } from '../interface/game';
+import { Preview } from '../interface/preview';
+import { Session } from '../interface/session';
 import { LaunchService } from './launch.service';
-import { Preview } from './preview';
 
 @Component({
   selector: 'launch',
@@ -83,6 +84,7 @@ export class LaunchComponent implements OnInit {
   }
 
   public gameChanged() {
+    this.player_num = 1;
     const g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
     if (g.length == 1) {
         this.players_total = g[0].players_total;
@@ -129,6 +131,7 @@ export class LaunchComponent implements OnInit {
   }
 
   public varChanged() {
+    this.player_num = 1;
     const g = this.variants.filter((it: Game) => { return it.id == this.curr_var; });
     if (g.length == 1) {
         this.players_total = g[0].players_total;
@@ -157,20 +160,25 @@ export class LaunchComponent implements OnInit {
   public submit() {
     const g: Game = this.getGame();
     if (!g) return;
-    const url = '/dagaz/' + g.filename + '.html';
-    let params = '?';
-    if (this.selector > 0) {
-      params = params + 'selector=' + this.selector;
-    }
-    if (this.player_num > 1) {
-      if (params != '?') {
-        params = params + '&';
+    this.serv.createSession(this.curr_game, g.filename, this.selector, this.player_num, this.curr_var).subscribe((data: Session) => {
+      const sid = data.id;
+      let url = '/dagaz/' + g.filename + '.html?sid=' + sid;
+      if (this.selector > 0) {
+        url = url + '&selector=' + this.selector;
       }
-      params = params + 'player=' + this.player_num;
-    }
-    if (url) {
-      window.location.href = url + params;
-    }
+      if (url) {
+        window.location.href = url;
+      }
+    },
+    (error: any) => {
+      let status = error.status;
+      if (status == 404) return;
+      if ([401, 403].includes(status)) {
+        this.router.navigate(['']);
+      } else {
+        alert("Error: " + status);
+      }
+    });
   }
 
   private loadPreview() {

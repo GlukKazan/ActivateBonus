@@ -23,7 +23,7 @@
         <td>
           <div class="col-sm-3 d-flex align-items-stretch">
             <div *ngIf="preview" class="image" style="margin:20px;background-size:contain;min-height:160px;">
-              <img src="api/upload/{{preview}}.png"/>
+              <img src="api/upload/{{preview}}.png" (click)="submit()"/>
             </div>    
           </div>    
         </td>
