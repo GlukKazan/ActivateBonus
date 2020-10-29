@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class JoinService {
 
-  private sess = '/api/session';
+  private sess = '/api/session/waiting';
   private join = '/api/join';
 
   constructor(private http: HttpClient) { }
