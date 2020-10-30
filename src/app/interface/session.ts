@@ -19,7 +19,8 @@ export class Session {
       public player_num: number,
       public player_name: string,
       public selector_value: number,
-      public uid: number
+      public uid: number,
+      public last_turn: number
     ) {}
   }
   
