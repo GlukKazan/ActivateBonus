@@ -11,7 +11,7 @@
           <b>Watch</b>
         </th>
         <th style="width: 90%">
-          <a href="/">Logout</a>
+          <a href="/">Sign Out</a>
         </th>
       </tr>
     </thead>
@@ -24,6 +24,7 @@
       <td>Date</td>
       <td>Game</td>
       <td>Player</td>
+      <td>Turns</td>
       <td></td>
     </tr>
   </thead>
@@ -32,6 +33,7 @@
       <td>{{it.created | date: 'dd/MM/yyyy'}}</td>
       <td>{{it.game}}</td>
       <td>{{it.player_name}}</td>
+      <td>{{it.last_turn}}</td>
       <td>
         <input
         type="button"
