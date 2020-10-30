@@ -11,7 +11,7 @@
           <a href="/watch">Watch</a>
         </th>
         <th style="width: 90%">
-          <a href="/">Logout</a>
+          <a href="/">Sign Out</a>
         </th>
       </tr>
     </thead>
@@ -51,7 +51,7 @@
                                 </div>
                                 <div *ngIf="max_selector" class="form-group">
                                   <label>Setup</label>
-                                  <select class="form-control" name="selector" [(ngModel)]="selector">
+                                  <select class="form-control" name="selector" [(ngModel)]="selector" (change)="loadPreview()">
                                       <option *ngFor="let it of getSelectors()" [value]="it">
                                           {{ it }}
                                       </option>

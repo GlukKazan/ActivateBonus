@@ -181,7 +181,7 @@ export class LaunchComponent implements OnInit {
     });
   }
 
-  private loadPreview() {
+  public loadPreview() {
     this.preview = null;
     const g: Game = this.getGame();
     if (!g) return;
