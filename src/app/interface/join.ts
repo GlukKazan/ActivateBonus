@@ -5,7 +5,8 @@ export class Join {
       public user: string,
       public session_id: number,
       public player_num: number,
-      public is_ai: number
+      public is_ai: number,
+      public filename: string
     ) {}
   }
   

@@ -14,12 +14,16 @@ export class LaunchService {
     return this.http.get(this.game);
   } 
 
-  getVars(game: number): Observable<Object> {
+  getVariants(game: number): Observable<Object> {
     return this.http.get(this.game + '/' + game + '/variants');
   } 
 
-  getPreview(filename: string, selector_value: number): Observable<Object> {
-    return this.http.post(this.game + '/preview', {"filename": filename, "selector_value": selector_value});
+  getStyles(game: number): Observable<Object> {
+    return this.http.get(this.game + '/' + game + '/styles');
+  } 
+
+  getPreview(filename: string, selector_value: number, style: number): Observable<Object> {
+    return this.http.post(this.game + '/preview', {"filename": filename, "selector_value": selector_value, "style": style});
   }
 
   createSession(game_id: number, filename: string, selector_value: number, player_num: number, variant: number): Observable<Object> {

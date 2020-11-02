@@ -49,6 +49,14 @@
                                       </option>
                                   </select>
                                 </div>
+                                <div *ngIf="styles.length" class="form-group">
+                                  <label>Styles</label>
+                                  <select class="form-control" name="curr_style" [(ngModel)]="curr_style" (change)="loadPreview()">
+                                      <option *ngFor="let it of styles" [value]="it.id">
+                                          {{ it.name }}
+                                      </option>
+                                  </select>
+                                </div>
                                 <div *ngIf="max_selector" class="form-group">
                                   <label>Setup</label>
                                   <select class="form-control" name="selector" [(ngModel)]="selector" (change)="loadPreview()">

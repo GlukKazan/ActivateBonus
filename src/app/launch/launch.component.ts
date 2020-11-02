@@ -1,8 +1,10 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Game } from '../interface/game';
 import { Preview } from '../interface/preview';
 import { Session } from '../interface/session';
+import { Style } from '../interface/style';
 import { LaunchService } from './launch.service';
 
 @Component({
@@ -17,6 +19,8 @@ export class LaunchComponent implements OnInit {
   curr_game: number;
   variants: Array<Game>;
   curr_var: number;
+  styles: Array<Style>;
+  curr_style: number;
   player_num: number;
   players_total: number;
   selector: number;
@@ -31,6 +35,8 @@ export class LaunchComponent implements OnInit {
     this.curr_game = null;
     this.variants = new Array<Game>();
     this.curr_var = null;
+    this.styles = new Array<Style>();
+    this.curr_style = null;
     this.player_num = 1;
     this.players_total = 0;
     this.selector = 0;
@@ -71,7 +77,8 @@ export class LaunchComponent implements OnInit {
             this.selector = 0;
           }
           this.loadVars();
-      }
+          this.loadStyles();
+        }
     },
     (error: any) => {
       let status = error.status;
@@ -97,10 +104,32 @@ export class LaunchComponent implements OnInit {
     }
     this.curr_var = null;
     this.loadVars();
+    this.loadStyles();
+  }
+
+  private loadStyles() {
+    this.curr_style = null;
+    this.serv.getStyles(this.curr_game).subscribe(
+      (data: Style[]) => {
+        this.styles = data;
+        if (data.length > 0) {
+          this.curr_style = data[0].id;
+        }
+        this.loadPreview();
+      },
+      (error: any) => {
+        let status = error.status;
+        if ([401, 403].includes(status)) {
+          this.router.navigate(['']);
+        } else {
+          alert("Error: " + status);
+        }
+      }
+    );
   }
 
   private loadVars() {
-    this.serv.getVars(this.curr_game).subscribe((data: Game[]) => {
+    this.serv.getVariants(this.curr_game).subscribe((data: Game[]) => {
       this.variants = data;
       if (data.length > 0) {
           const g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
@@ -162,7 +191,12 @@ export class LaunchComponent implements OnInit {
     if (!g) return;
     this.serv.createSession(this.curr_game, g.filename, this.selector, this.player_num, this.curr_var).subscribe((data: Session) => {
       const sid = data.id;
-      let url = '/dagaz/' + g.filename + '.html?sid=' + sid;
+      let url = '/dagaz/' + data.filename;
+      const s = this.styles.filter((it: Style) => { return it.id == this.curr_style; });
+      if (s.length == 1) {
+        url = url + s[0].suffix;
+      }
+      url = url + '.html?sid=' + sid;
       if (this.selector > 0) {
         url = url + '&selector=' + this.selector;
       }
@@ -185,7 +219,7 @@ export class LaunchComponent implements OnInit {
     this.preview = null;
     const g: Game = this.getGame();
     if (!g) return;
-    this.serv.getPreview(g.filename, this.selector).subscribe((data: Preview) => {
+    this.serv.getPreview(g.filename, this.selector, this.curr_style).subscribe((data: Preview) => {
       this.preview = data.preview;
     },
     (error: any) => {

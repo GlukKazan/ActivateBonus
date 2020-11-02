@@ -20,7 +20,8 @@ export class Session {
       public player_name: string,
       public selector_value: number,
       public uid: number,
-      public last_turn: number
+      public last_turn: number,
+      public style: number
     ) {}
   }
   

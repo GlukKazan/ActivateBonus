@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Session } from '../interface/session';
+import { Style } from '../interface/style';
 import { WatchService } from './watch.service';
 
 @Component({
@@ -12,20 +13,54 @@ import { WatchService } from './watch.service';
 export class WatchComponent implements OnInit {
 
   sessions: Array<Session>;
+  styles: Array<Style>;
   
   constructor(
     private serv: WatchService,
     private router: Router
   ) { 
     this.sessions = new Array<Session>();
+    this.styles = new Array<Style>();
   }
 
   ngOnInit(): void { 
-    this.loadSessions();
+    this.loadStyles();
+  }
+
+  private loadStyles() {
+    this.serv.getStyles().subscribe(
+      (data: Style[]) => {
+        this.styles = data;
+        this.loadSessions();
+      },
+      (error: any) => {
+        let status = error.status;
+        if ([401, 403].includes(status)) {
+          this.router.navigate(['']);
+        } else {
+          alert("Error: " + status);
+        }
+      }
+    );
+  }
+
+  public getStyles(game: number) {
+    return this.styles.filter((it: Style) => { return it.game_id == game; });
+  }
+
+  public isStyled(game: number) {
+    const s = this.getStyles(game);
+    return s.length > 0;
   }
 
   private loadSessions() {
     this.serv.getSessions().subscribe((data: Session[]) => {
+      data.forEach((it: Session) => {
+        const s = this.getStyles(it.game_id);
+        if (s.length > 0) {
+          it.style = s[0].id;
+        }
+      });
       this.sessions = data;
     },
     (error: any) => {
@@ -40,7 +75,12 @@ export class WatchComponent implements OnInit {
 
   public join(it: Session) {
     if (!confirm("Join to Session?")) return;
-    let url = '/dagaz/' + it.filename + '.html?sid=' + it.id;
+    let url = '/dagaz/' + it.filename;
+    const s = this.styles.filter((x: Style) => { return it.style == x.id; });
+    if (s.length) {
+      url = url + s[0].suffix;
+    }
+    url = url + '.html?sid=' + it.id;
     if (it.selector_value > 0) {
       url = url + '&selector=' + it.selector_value;
     }

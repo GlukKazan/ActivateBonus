@@ -24,6 +24,7 @@
       <td>Date</td>
       <td>Game</td>
       <td>Player</td>
+      <td>Style</td>
       <td></td>
     </tr>
   </thead>
@@ -32,6 +33,15 @@
       <td>{{it.created | date: 'dd/MM/yyyy'}}</td>
       <td>{{it.game}}</td>
       <td>{{it.player_name}} ({{it.player_num}})</td>
+      <td>
+        <div *ngIf="isStyled(it.game_id)">
+          <select class="form-control" name="it.style" [(ngModel)]="it.style">
+            <option *ngFor="let s of getStyles(it.game_id)" [value]="s.id">
+                {{ s.name }}
+            </option>
+          </select>
+        </div>
+      </td>
       <td>
         <input
         type="button"
