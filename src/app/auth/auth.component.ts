@@ -40,7 +40,7 @@ export class AuthComponent implements OnInit {
       (error: any) => {
         let status = error.status;
         if (status == 401) {
-            alert("Логин или пароль не найден");
+            alert("Login or password not found");
         } else {
             alert("Error: " + status);
         }

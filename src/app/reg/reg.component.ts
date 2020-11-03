@@ -42,13 +42,13 @@ export class RegComponent implements OnInit {
     }
     this.serv.addUser(this.registerForm.value).subscribe(
       (data: any) => {
-        alert("Пользователь зарегестрирован");
+        alert("Account registered");
         this.router.navigate(['auth']);
       },
       (error: any) => {
         let status = error.status;
         if (status == 409) {
-            alert("Пользователь уже существует");
+            alert("Account already existed");
         } else {
             alert("Error: " + status);
         }
