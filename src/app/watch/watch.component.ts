@@ -88,4 +88,24 @@ export class WatchComponent implements OnInit {
       window.location.href = url;
     }
   }
+
+  public delete(it: Session) {
+    if (!confirm("Delele Session?")) return;
+    const s = this.serv.delSessions(it.id).subscribe((data: Session) => {
+      this.loadSessions();
+    },
+    (error: any) => {
+      let status = error.status;
+      if ([401, 403].includes(status)) {
+        this.router.navigate(['']);
+      } else {
+        alert("Error: " + status);
+      }
+    });
+  }
+
+  public isRoot() {
+    const role = sessionStorage.getItem('myAuthRole');
+    return role == '1';
+  }
 }

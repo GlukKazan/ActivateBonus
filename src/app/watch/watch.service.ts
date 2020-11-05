@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class WatchService {
 
   private styles = '/api/game/styles';
-  private sess = '/api/session/active';
+  private sess = '/api/session';
 
   constructor(private http: HttpClient) { }
 
@@ -15,6 +15,10 @@ export class WatchService {
   } 
 
   getSessions(): Observable<Object> {
-    return this.http.get(this.sess);
+    return this.http.get(this.sess + '/active');
+  } 
+
+  delSessions(id: number): Observable<Object> {
+    return this.http.delete(this.sess + '/' + id);
   } 
 }

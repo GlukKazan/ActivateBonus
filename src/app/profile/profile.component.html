@@ -1,0 +1,78 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th style="width: 10%">
+          <a href="/launch">Launch</a>
+        </th>
+        <th style="width: 10%">
+            <a href="/join">Join</a>
+        </th>
+        <th style="width: 10%">
+            <a href="/curr">Your turn</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/watch">Watch</a>
+        </th>
+        <th style="width: 10%">
+          <b>Profile</b>
+        </th>
+        <th style="width: 70%">
+          <a href="/">Sign Out</a>
+        </th>
+      </tr>
+    </thead>
+</table>
+
+<div class="jumbotron">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6 offset-md-3">
+              <div class="profile-form">
+                  <form [formGroup]="registerForm" novalidate (ngSubmit)="submit()">
+                      <div class="form-group">
+                          <label>Name</label>
+                          <input type="text" formControlName="fio"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fio.errors }" />
+                          <div *ngIf="submitted && f.fio.errors" class="invalid-feedback">
+                              <div *ngIf="f.fio.errors.required">Enter your name</div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label>Login</label>
+                          <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"/>
+                          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                              <div *ngIf="f.username.errors.required">Enter your login</div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label>Password</label>
+                          <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                              <div *ngIf="f.password.errors.required">Enter your password</div>
+                              <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters long</div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Confirmation</label>
+                        <input type="password" formControlName="confirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"/>
+                          <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
+                              <div *ngIf="f.confirm.errors.required">Enter your password confirmation</div>
+                              <div *ngIf="f.confirm.errors.mustMatch">The confirmation must match the password</div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label>EMail</label>
+                          <input type="text" formControlName="mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }"/>
+                          <div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
+                            <div *ngIf="f.mail.errors.required">Enter your EMail</div>
+                            <div *ngIf="f.mail.errors.email">Incorrect Email</div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <button class="btn btn-primary">Save changes</button>
+                      </div>
+                  </form>
+              </div>    
+          </div>
+      </div>
+  </div>
+</div>

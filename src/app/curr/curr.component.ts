@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Join } from '../interface/join';
 import { Session } from '../interface/session';
 import { Style } from '../interface/style';
-import { JoinService } from './join.service';
+import { CurrService } from './curr.service';
 
 @Component({
-  selector: 'app-join',
-  templateUrl: './join.component.html',
-  styleUrls: ['./join.component.css'],
-  providers: [JoinService]
+  selector: 'app-curr',
+  templateUrl: './curr.component.html',
+  styleUrls: ['./curr.component.css'],
+  providers: [CurrService]
 })
-export class JoinComponent implements OnInit {
-
+export class CurrComponent implements OnInit {
   sessions: Array<Session>;
   styles: Array<Style>;
-
+  
   constructor(
-    private serv: JoinService,
+    private serv: CurrService,
     private router: Router
-  ) {
+  ) { 
     this.sessions = new Array<Session>();
     this.styles = new Array<Style>();
   }
@@ -76,30 +74,18 @@ export class JoinComponent implements OnInit {
 
   public join(it: Session) {
     if (!confirm("Join to Session?")) return;
-    this.serv.joinToSession(it.id).subscribe((data: Join) => {
-      this.loadSessions();
-      let url = '/dagaz/' + data.filename;
-      const s = this.styles.filter((x: Style) => { return it.style == x.id; });
-      if (s.length) {
-        url = url + s[0].suffix;
-      }
-      url = url + '.html?sid=' + it.id;
-        if (it.selector_value > 0) {
-        url = url + '&selector=' + it.selector_value;
-      }
-      if (url) {
-        window.location.href = url;
-      }
-    },
-    (error: any) => {
-      let status = error.status;
-      if (status == 404) return;
-      if ([401, 403].includes(status)) {
-        this.router.navigate(['']);
-      } else {
-        alert("Error: " + status);
-      }
-    });
+    let url = '/dagaz/' + it.filename;
+    const s = this.styles.filter((x: Style) => { return it.style == x.id; });
+    if (s.length) {
+      url = url + s[0].suffix;
+    }
+    url = url + '.html?sid=' + it.id;
+    if (it.selector_value > 0) {
+      url = url + '&selector=' + it.selector_value;
+    }
+    if (url) {
+      window.location.href = url;
+    }
   }
 
   public delete(it: Session) {

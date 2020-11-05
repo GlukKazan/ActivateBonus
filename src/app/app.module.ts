@@ -14,6 +14,8 @@ import { JwtInterceptor } from './jwt.interceptor';
 import { LaunchModule } from './launch/launch.module';
 import { JoinModule } from './join/join.module';
 import { WatchModule } from './watch/watch.module';
+import { CurrModule } from './curr/curr.module';
+import { ProfileModule } from './profile/profile.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { WatchModule } from './watch/watch.module';
     BonusModule,
     LaunchModule,
     JoinModule,
-    WatchModule
+    WatchModule,
+    CurrModule,
+    ProfileModule
   ],
   providers: [
     AuthService,
