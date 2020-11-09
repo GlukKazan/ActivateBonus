@@ -59,14 +59,14 @@
                               <div *ngIf="f.confirm.errors.mustMatch">The confirmation must match the password</div>
                           </div>
                       </div>
-                      <div class="form-group">
+<!--                  <div class="form-group">
                           <label>EMail</label>
                           <input type="text" formControlName="mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }"/>
                           <div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
                             <div *ngIf="f.mail.errors.required">Enter your EMail</div>
                             <div *ngIf="f.mail.errors.email">Incorrect Email</div>
                           </div>
-                      </div>
+                      </div> -->
                       <div class="form-group">
                           <button class="btn btn-primary">Save changes</button>
                       </div>

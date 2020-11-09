@@ -25,8 +25,8 @@ export class RegComponent implements OnInit {
       fio: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirm: ['', Validators.required],
-      mail: ['', [Validators.required, Validators.email]]
+      confirm: ['', Validators.required]/*,
+      mail: ['', [Validators.email]]*/
       }, {
         validator: MustMatch('password', 'confirm')
       }
