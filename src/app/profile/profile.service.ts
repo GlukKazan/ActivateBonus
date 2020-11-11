@@ -14,6 +14,6 @@ export class ProfileService {
   } 
 
   changeProfile(id: number, data: any): Observable<Object> {
-    return this.http.post(this.user, {"id": id, "name": data.fio, "username": data.username, "password": data.password/*, "email": data.mail*/});
+    return this.http.post(this.user, {"id": id, "name": data.fio, "username": data.username, "password": data.password, "email": data.mail});
   }
 }

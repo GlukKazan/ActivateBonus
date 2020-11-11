@@ -29,8 +29,8 @@ export class ProfileComponent implements OnInit {
       fio: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.minLength(6)],
-      confirm: ['']/*,
-      mail: ['', [Validators.email]]*/
+      confirm: [''],
+      mail: ['', [Validators.email]]
       }, {
         validator: MustMatch('password', 'confirm')
       }
@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
       this.id = data.id;
       this.f.fio.setValue(data.name);
       this.f.username.setValue(data.username);
-//    this.f.mail.setValue(data.email);
+      this.f.mail.setValue(data.email);
     },
     (error: any) => {
       let status = error.status;
