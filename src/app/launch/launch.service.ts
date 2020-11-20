@@ -26,7 +26,7 @@ export class LaunchService {
     return this.http.post(this.game + '/preview', {"filename": filename, "selector_value": selector_value, "style": style});
   }
 
-  createSession(game_id: number, filename: string, selector_value: number, player_num: number, variant: number): Observable<Object> {
-    return this.http.post(this.sess, {"game_id": game_id, "filename": filename, "selector_value": selector_value, "player_num": player_num, "variant_id": variant});
+  createSession(game_id: number, filename: string, selector_value: number, player_num: number, variant: number, ai: boolean): Observable<Object> {
+    return this.http.post(this.sess, {"game_id": game_id, "filename": filename, "selector_value": selector_value, "player_num": player_num, "variant_id": variant, "with_ai": ai});
   }
 }

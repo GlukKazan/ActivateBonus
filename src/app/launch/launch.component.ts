@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CheckboxControlValueAccessor } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Game } from '../interface/game';
 import { Preview } from '../interface/preview';
@@ -25,6 +26,7 @@ export class LaunchComponent implements OnInit {
   selector: number;
   max_selector: number;
   preview: string;
+  ai_selected: boolean;
 
   constructor(
     private serv: LaunchService,
@@ -41,10 +43,29 @@ export class LaunchComponent implements OnInit {
     this.selector = 0;
     this.max_selector = 0;
     this.preview = null;
+    this.ai_selected = false;
   }
 
   ngOnInit(): void {
     this.loadGames();
+  }
+
+  private checkBots(bots: string): boolean {
+    if (!bots.startsWith('0:')) {
+        if (!bots.startsWith(this.selector + ':')) return false;
+    }
+    if (!bots.endsWith(':0')) {
+        if (!bots.endsWith(':' + this.player_num)) return false;
+    }
+    return true;
+  }
+
+  public isAi(): boolean {
+    const g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
+    if ((g.length > 0) && g[0].bots) return this.checkBots(g[0].bots);
+    const v = this.variants.filter((it: Game) => { return it.id == this.curr_var; });
+    if ((v.length > 0) && v[0].bots) return this.checkBots(v[0].bots);
+    return false;
   }
 
   public getPlayers() {
@@ -100,7 +121,8 @@ export class LaunchComponent implements OnInit {
         } else {
           this.selector = 0;
         }
-    }
+        this.ai_selected = false;
+      }
     this.curr_var = null;
     this.loadVars();
     this.loadStyles();
@@ -169,6 +191,7 @@ export class LaunchComponent implements OnInit {
         } else {
           this.selector = 0;
         }
+        this.ai_selected = false;
         this.loadPreview();
     }
   }
@@ -189,12 +212,15 @@ export class LaunchComponent implements OnInit {
     if (!confirm("Launch the game?")) return;
     const g: Game = this.getGame();
     if (!g) return;
-    this.serv.createSession(this.curr_game, g.filename, this.selector, this.player_num, this.curr_var).subscribe((data: Session) => {
+    this.serv.createSession(this.curr_game, g.filename, this.selector, this.player_num, this.curr_var, this.ai_selected).subscribe((data: Session) => {
       const sid = data.id;
       let url = '/dagaz/' + data.filename;
       const s = this.styles.filter((it: Style) => { return it.id == this.curr_style; });
       if (s.length == 1) {
         url = url + s[0].suffix;
+      }
+      if (this.ai_selected) {
+        url = url + '-ai';
       }
       url = url + '.html?sid=' + sid;
       if (this.selector > 0) {

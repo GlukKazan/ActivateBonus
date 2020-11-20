@@ -8,7 +8,8 @@ export class Game {
       public main_time: number,
       public additional_time: number,
       public realm_id: number,
-      public max_selector: number
+      public max_selector: number,
+      public bots: string
     ) {}
   }
   

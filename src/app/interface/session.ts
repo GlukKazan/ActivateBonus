@@ -21,7 +21,9 @@ export class Session {
       public selector_value: number,
       public uid: number,
       public last_turn: number,
-      public style: number
+      public style: number,
+      public with_ai: boolean,
+      public ai: number
     ) {}
   }
   

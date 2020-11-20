@@ -80,6 +80,9 @@ export class WatchComponent implements OnInit {
     if (s.length) {
       url = url + s[0].suffix;
     }
+    if (it.ai) {
+      url = url + '-ai';
+    }
     url = url + '.html?sid=' + it.id;
     if (it.selector_value > 0) {
       url = url + '&selector=' + it.selector_value;
