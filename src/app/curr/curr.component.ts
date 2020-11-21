@@ -73,7 +73,7 @@ export class CurrComponent implements OnInit {
   }
 
   public join(it: Session) {
-    if (!confirm("Join to Session?")) return;
+//  if (!confirm("Join to Session?")) return;
     let url = '/dagaz/' + it.filename;
     const s = this.styles.filter((x: Style) => { return it.style == x.id; });
     if (s.length) {
