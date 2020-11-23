@@ -50,7 +50,7 @@ export class LaunchComponent implements OnInit {
     this.loadGames();
   }
 
-  private checkBots(bots: string): boolean {
+  private checkBot(bots: string): boolean {
     if (!bots.startsWith('0:')) {
         if (!bots.startsWith(this.selector + ':')) return false;
     }
@@ -58,6 +58,14 @@ export class LaunchComponent implements OnInit {
         if (!bots.endsWith(':' + this.player_num)) return false;
     }
     return true;
+  }
+
+  private checkBots(bots: string): boolean {
+    var r = false;
+    bots.split(',').forEach((s) => {
+      if (this.checkBot(s)) r = true;
+    });
+    return r;
   }
 
   public isAi(): boolean {
