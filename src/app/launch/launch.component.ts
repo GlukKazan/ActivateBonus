@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CheckboxControlValueAccessor } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Game } from '../interface/game';
 import { Preview } from '../interface/preview';
 import { Session } from '../interface/session';
 import { Style } from '../interface/style';
 import { LaunchService } from './launch.service';
+
+var cnt = 0;
 
 @Component({
   selector: 'launch',
@@ -28,9 +29,14 @@ export class LaunchComponent implements OnInit {
   preview: string;
   ai_selected: boolean;
 
+  start_game: number;
+  start_var: number;
+  start_setup: number;
+
   constructor(
     private serv: LaunchService,
-    private router: Router
+    private router: Router,
+    private activateRoute: ActivatedRoute
   ) { 
     this.games = new Array<Game>();
     this.curr_game = null;
@@ -44,6 +50,9 @@ export class LaunchComponent implements OnInit {
     this.max_selector = 0;
     this.preview = null;
     this.ai_selected = false;
+    this.start_game = activateRoute.snapshot.params['g'];
+    this.start_var = activateRoute.snapshot.params['v'];
+    this.start_setup = activateRoute.snapshot.params['s'];
   }
 
   ngOnInit(): void {
@@ -96,11 +105,24 @@ export class LaunchComponent implements OnInit {
     this.serv.getGames().subscribe((data: Game[]) => {
       this.games = data;
       if (data.length > 0) {
-          this.curr_game = data[0].id;
-          this.players_total = data[0].players_total;
-          this.max_selector = data[0].max_selector;
+          let g = data[0];
+          if (this.start_game) {
+              const x = this.games.filter((it: Game) => { return it.id == this.start_game; });
+              if (x && x.length > 0) {
+                  g = x[0];
+              }
+          }
+          this.curr_game = g.id;
+          this.players_total = g.players_total;
+          this.max_selector = g.max_selector;
           if (this.max_selector > 1) {
             this.selector = 1;
+            if (this.start_setup) {
+              if (this.start_setup <= this.max_selector) {
+                this.selector = this.start_setup;
+              }
+              this.start_setup = null;
+            }
           } else {
             this.selector = 0;
           }
@@ -163,13 +185,26 @@ export class LaunchComponent implements OnInit {
       if (data.length > 0) {
           const g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
           if (g.length == 1) {
-              const v = this.variants.filter((it: Game) => { return it.filename == g[0].filename; });
+              let v = this.variants.filter((it: Game) => { return it.filename == g[0].filename; });
+              if (this.start_var) {
+                const x = this.variants.filter((it: Game) => { return it.id == this.start_var; });
+                if (x && x.length > 0) {
+                    v = x;
+                    this.start_var = null;
+                }
+              }
               if (v.length > 0) {
                 this.curr_var = v[0].id;
                 this.players_total = v[0].players_total;
                 this.max_selector = v[0].max_selector;
                 if (this.max_selector > 1) {
                   this.selector = 1;
+                  if (this.start_setup) {
+                    if (this.start_setup <= this.max_selector) {
+                      this.selector = this.start_setup;
+                    }
+                    this.start_setup = null;
+                  }
                 } else {
                   this.selector = 0;
                 }
@@ -233,6 +268,10 @@ export class LaunchComponent implements OnInit {
       url = url + '.html?sid=' + sid;
       if (this.selector > 0) {
         url = url + '&selector=' + this.selector;
+      }
+      if (this.games) {
+        this.curr_game = this.games[0].id;
+
       }
       if (url) {
         window.location.href = url;
