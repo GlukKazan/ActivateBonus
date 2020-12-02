@@ -3,7 +3,9 @@ export class Preview {
       public id: number, 
       public filename: string,
       public selector_value: number,
-      public preview: string
+      public preview: string,
+      public rules: string,
+      public copyright: string
     ) {}
   }
   

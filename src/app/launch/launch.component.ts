@@ -26,7 +26,7 @@ export class LaunchComponent implements OnInit {
   players_total: number;
   selector: number;
   max_selector: number;
-  preview: string;
+  preview: Preview;
   ai_selected: boolean;
 
   start_game: number;
@@ -293,7 +293,7 @@ export class LaunchComponent implements OnInit {
     const g: Game = this.getGame();
     if (!g) return;
     this.serv.getPreview(g.filename, this.selector, this.curr_style).subscribe((data: Preview) => {
-      this.preview = data.preview;
+      this.preview = data;
     },
     (error: any) => {
       let status = error.status;
