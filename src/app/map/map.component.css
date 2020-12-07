@@ -1,8 +1,17 @@
+
+.divGameIconWrap {
+    Display: flex; 
+    flex-wrap:wrap;
+}
+
 .divGameIcon
 {
     text-align:center;
-    float:left;
     margin:7px;
     width:200px;
     height:210px;
+    flex-grow:2; 
+    max-width:260px;
+    min-width:130px;
+    flex-shrink:2;
 }

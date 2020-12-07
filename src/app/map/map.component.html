@@ -1,20 +1,16 @@
-<table cellpadding="0" cellspacing="0">
-    <tr>
-        <td>
-            <div class="divGameIcon" *ngFor="let it of games">
-                <a *ngIf="it.variant_id" href="launch/{{it.id}}/{{it.variant_id}}">
-                    <img src="api/upload/{{it.preview}}.png">
-                </a>
-                <a *ngIf="!it.variant_id" href="launch/{{it.id}}">
-                    <img src="api/upload/{{it.preview}}.png">
-                </a>
-                <p>
-                    <a *ngIf="it.rules" target="_blank" href="{{it.rules}}">
-                        <b>{{it.name}}</b>
-                    </a>
-                    <b *ngIf="!it.rules">{{it.name}}</b>
-                </p>
-            </div>
-        </td>
-    </tr>
-</table>
+<div class="divGameIconWrap">
+    <div class="divGameIcon" *ngFor="let it of games">
+        <a *ngIf="it.variant_id" href="launch/{{it.id}}/{{it.variant_id}}">
+            <img src="api/upload/{{it.preview}}.png">
+        </a>
+        <a *ngIf="!it.variant_id" href="launch/{{it.id}}">
+            <img src="api/upload/{{it.preview}}.png">
+        </a>
+        <p>
+            <a *ngIf="it.rules" target="_blank" href="{{it.rules}}">
+                <b>{{it.name}}</b>
+            </a>
+            <b *ngIf="!it.rules">{{it.name}}</b>
+        </p>
+    </div>
+</div>
