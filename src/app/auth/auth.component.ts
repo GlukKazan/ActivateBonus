@@ -23,6 +23,13 @@ export class AuthComponent implements OnInit {
     this.pass = '';
   }
 
+  onKeydownEvent(e: KeyboardEvent): void {
+    console.log(e);
+    if (e.key === "Enter") {
+      this.submit();
+    }
+  }
+
   submit(): void {
     localStorage.removeItem('myAuthToken');
     this.serv.auth(this.login, this.pass).subscribe(

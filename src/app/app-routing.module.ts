@@ -6,6 +6,7 @@ import { CurrComponent } from './curr/curr.component';
 import { JoinComponent } from './join/join.component';
 import { JwtGuard } from './jwt.guard';
 import { LaunchComponent } from './launch/launch.component';
+import { MapComponent } from './map/map.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegComponent } from './reg/reg.component';
 import { WatchComponent } from './watch/watch.component';
@@ -13,6 +14,7 @@ import { WatchComponent } from './watch/watch.component';
 const routes: Routes = [
   { path: '', component: AuthComponent },
   { path: 'reg', component: RegComponent },
+  { path: 'map', component: MapComponent },
   { path: 'bonus', component: BonusComponent, canActivate: [JwtGuard] },
   { path: 'launch/:g/:v/:s', component: LaunchComponent, canActivate: [JwtGuard] },
   { path: 'launch/:g/:v', component: LaunchComponent, canActivate: [JwtGuard] },

@@ -16,6 +16,7 @@ import { JoinModule } from './join/join.module';
 import { WatchModule } from './watch/watch.module';
 import { CurrModule } from './curr/curr.module';
 import { ProfileModule } from './profile/profile.module';
+import { MapModule } from './map/map.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ProfileModule } from './profile/profile.module';
     JoinModule,
     WatchModule,
     CurrModule,
-    ProfileModule
+    ProfileModule,
+    MapModule
   ],
   providers: [
     AuthService,

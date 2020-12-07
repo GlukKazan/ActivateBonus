@@ -9,7 +9,11 @@ export class Game {
       public additional_time: number,
       public realm_id: number,
       public max_selector: number,
-      public bots: string
+      public bots: string,
+      public variant_id: number,
+      public preview: string,
+      public rules: string,
+      public copyright: string
     ) {}
   }
   

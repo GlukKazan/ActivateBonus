@@ -35,6 +35,13 @@ export class RegComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
+  onKeydownEvent(e: KeyboardEvent): void {
+    console.log(e);
+    if (e.key === "Enter") {
+      this.submit();
+    }
+  }
+  
   submit(): void {
     this.submitted = true;
     if (this.registerForm.invalid) {

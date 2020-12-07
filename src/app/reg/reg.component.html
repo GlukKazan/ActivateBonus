@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <label>Confirmation</label>
-                            <input type="password" formControlName="confirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"/>
+                            <input type="password" formControlName="confirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }" (keydown)=onKeydownEvent($event)/>
                             <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
                                 <div *ngIf="f.confirm.errors.required">Enter your password confirmation</div>
                                 <div *ngIf="f.confirm.errors.mustMatch">The confirmation must match the password</div>

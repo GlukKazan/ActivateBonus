@@ -22,6 +22,7 @@
                         type="password"
                         [(ngModel)]="pass"
                         #password="ngModel"
+                        (keydown)=onKeydownEvent($event)
                         required
                     />
                </div>
