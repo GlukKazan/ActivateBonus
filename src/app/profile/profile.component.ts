@@ -58,7 +58,6 @@ export class ProfileComponent implements OnInit {
   }
 
   onKeydownEvent(e: KeyboardEvent): void {
-    console.log(e);
     if (e.key === "Enter") {
       this.submit();
     }

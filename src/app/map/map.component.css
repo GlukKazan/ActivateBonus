@@ -1,6 +1,6 @@
 
 .divGameIconWrap {
-    Display: flex; 
+    display: flex; 
     flex-wrap:wrap;
 }
 

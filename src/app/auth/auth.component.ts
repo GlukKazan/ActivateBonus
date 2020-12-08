@@ -24,7 +24,6 @@ export class AuthComponent implements OnInit {
   }
 
   onKeydownEvent(e: KeyboardEvent): void {
-    console.log(e);
     if (e.key === "Enter") {
       this.submit();
     }
@@ -42,7 +41,12 @@ export class AuthComponent implements OnInit {
         if (data.realm == 2) {
           this.router.navigate(['bonus']);
         } else {
-          this.router.navigate(['launch']);
+          const url = localStorage.getItem('currGame');
+          if (url) {
+            this.router.navigate([url]);
+          } else {
+            this.router.navigate(['launch']);
+          }
         }
       },
       (error: any) => {
@@ -54,5 +58,4 @@ export class AuthComponent implements OnInit {
         }
       });
   }
-
 }

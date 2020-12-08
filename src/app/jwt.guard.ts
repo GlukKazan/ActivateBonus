@@ -8,7 +8,13 @@ export class JwtGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
       ): Observable<boolean> | boolean {
-         let token = localStorage.getItem('myAuthToken');
-         return !!token;
+        const path = route.routeConfig.path;
+        if (/^launch\//.test(path)) {
+            const params = route.params;
+            const r = path.replace(':g', params.g).replace(':v', params.v);
+            localStorage.setItem('currGame', r);
+        }
+        let token = localStorage.getItem('myAuthToken');
+        return !!token;
       }    
 }
