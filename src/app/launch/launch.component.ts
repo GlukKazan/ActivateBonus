@@ -158,14 +158,34 @@ export class LaunchComponent implements OnInit {
     this.loadStyles();
   }
 
+  private initStyle() {
+    const suffix = localStorage.getItem('myCurrStyle');
+    if (suffix) {
+      const s = this.styles.filter((it: Style) => { return it.suffix == suffix; });
+      if (s.length > 0) {
+        this.curr_style = s[0].id;
+        return;
+      }
+    }
+    if (this.styles.length > 0) {
+      this.curr_style = this.styles[0].id;
+    }
+  }
+
+  public changeStyle() {
+    const s = this.styles.filter((it: Style) => { return it.id == this.curr_style; });
+    if (s.length > 0) {
+      localStorage.setItem('myCurrStyle', s[0].suffix);
+    }
+    this.loadPreview();
+  }
+
   private loadStyles() {
     this.curr_style = null;
     this.serv.getStyles(this.curr_game).subscribe(
       (data: Style[]) => {
         this.styles = data;
-        if (data.length > 0) {
-          this.curr_style = data[0].id;
-        }
+        this.initStyle();
         this.loadPreview();
       },
       (error: any) => {

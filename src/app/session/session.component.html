@@ -21,7 +21,7 @@
 </table>
 
 <h3>Watch sessions
-<select class="scopeCombobox" name="scope" [(ngModel)]="scope" (change)="loadSessions()">
+<select class="scopeCombobox" name="scope" [(ngModel)]="scope" (change)="changeFilter()">
     <option [value]="1">Join to session</option>
     <option [value]="2">My turn</option>
     <option [value]="3">Current games</option>
@@ -49,7 +49,7 @@
       <td>{{it.last_turn}}</td>
       <td>
         <div *ngIf="isStyled(it.game_id)">
-          <select class="form-control" name="it.style" [(ngModel)]="it.style">
+          <select class="form-control" name="it.style" [(ngModel)]="it.style" (change)="changeStyle(it)">
             <option *ngFor="let s of getStyles(it.game_id)" [value]="s.id">
                 {{ s.name }}
             </option>

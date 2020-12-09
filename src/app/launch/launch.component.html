@@ -57,7 +57,7 @@
                                 </div>
                                 <div *ngIf="styles.length" class="form-group">
                                   <label>Styles</label>
-                                  <select class="form-control" name="curr_style" [(ngModel)]="curr_style" (change)="loadPreview()">
+                                  <select class="form-control" name="curr_style" [(ngModel)]="curr_style" (change)="changeStyle()">
                                       <option *ngFor="let it of styles" [value]="it.id">
                                           {{ it.name }}
                                       </option>
@@ -94,4 +94,3 @@
         </td>
     </tr>
 </table>
-

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { timer } from 'rxjs';
 import { Join } from '../interface/join';
 import { Session } from '../interface/session';
 import { Style } from '../interface/style';
@@ -23,11 +24,14 @@ export class SessionComponent implements OnInit {
   ) { 
     this.sessions = new Array<Session>();
     this.styles = new Array<Style>();
-    this.scope = 1;
+    this.initScope();
   }
 
   ngOnInit(): void {
     this.loadStyles();
+    timer(60000, 60000).subscribe(() => {
+      this.loadSessions();
+    });
   }
 
   private loadStyles() {
@@ -64,13 +68,46 @@ export class SessionComponent implements OnInit {
     return 'my';
   }
 
+  private initScope() {
+    const scope = localStorage.getItem('mySessionScope');
+    if (scope) {
+      this.scope = +scope;
+    } else {
+      this.scope = 1;
+    }
+  }
+
+  public changeFilter() {
+    localStorage.setItem('mySessionScope', '' + this.scope);
+    this.loadSessions();
+  }
+
+  public changeStyle(session) {
+    const s = this.styles.filter((it: Style) => { return it.id == session.style; });
+    if (s.length > 0) {
+      localStorage.setItem('myCurrStyle', s[0].suffix);
+    }
+  }
+
+  private initStyle(session) {
+    const styles = this.getStyles(session.game_id);
+    const suffix = localStorage.getItem('myCurrStyle');
+    if (suffix) {
+      const s = styles.filter((it: Style) => { return it.suffix == suffix; });
+      if (s.length > 0) {
+        session.style = s[0].id;
+        return;
+      }
+    }
+    if (styles.length > 0) {
+      session.style = styles[0].id;
+    }
+  }
+
   public loadSessions() {
     this.serv.getSessions(this.getScope()).subscribe((data: Session[]) => {
       data.forEach((it: Session) => {
-        const s = this.getStyles(it.game_id);
-        if (s.length > 0) {
-          it.style = s[0].id;
-        }
+        this.initStyle(it);
       });
       this.sessions = data;
     },
@@ -106,7 +143,6 @@ export class SessionComponent implements OnInit {
   }
 
   private launch(it: Session) {
-    this.scope = 1;
     let url = '/dagaz/' + it.filename;
     const s = this.styles.filter((x: Style) => { return it.style == x.id; });
     if (s.length) {
