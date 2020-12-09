@@ -2,28 +2,33 @@
     <thead>
       <tr>
         <th style="width: 10%">
+            <a href="/map">Games</a>
+        </th>
+        <th style="width: 10%">
             <a href="/launch">Launch</a>
         </th>
         <th style="width: 10%">
-          <a href="/join">Join</a>
-        </th>
-        <th style="width: 10%">
-          <a href="/curr">Your turn</a>
-        </th>
-        <th style="width: 10%">
-          <b>Watch</b>
+          <b>Sessions</b>
         </th>
         <th style="width: 10%">
           <a href="/profile">Profile</a>
         </th>
-        <th style="width: 70%">
+        <th style="width: 60%">
           <a href="/">Log Out</a>
         </th>
       </tr>
     </thead>
 </table>
 
-<h3>Watch sessions</h3>
+<h3>Watch sessions
+<select class="scopeCombobox" name="scope" [(ngModel)]="scope" (change)="loadSessions()">
+    <option [value]="1">Join to session</option>
+    <option [value]="2">My turn</option>
+    <option [value]="3">Current games</option>
+    <option [value]="4">Archive</option>
+    <option [value]="5">My games</option>
+</select>
+</h3>
 <table class="table table-striped">
   <thead>
     <tr>

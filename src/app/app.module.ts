@@ -12,11 +12,9 @@ import { JwtGuard } from './jwt.guard';
 import { BonusModule } from './bonus/bonus.module';
 import { JwtInterceptor } from './jwt.interceptor';
 import { LaunchModule } from './launch/launch.module';
-import { JoinModule } from './join/join.module';
-import { WatchModule } from './watch/watch.module';
-import { CurrModule } from './curr/curr.module';
 import { ProfileModule } from './profile/profile.module';
 import { MapModule } from './map/map.module';
+import { SessionModule } from './session/session.module';
 
 @NgModule({
   declarations: [
@@ -31,9 +29,7 @@ import { MapModule } from './map/map.module';
     RegModule,
     BonusModule,
     LaunchModule,
-    JoinModule,
-    WatchModule,
-    CurrModule,
+    SessionModule,
     ProfileModule,
     MapModule
   ],

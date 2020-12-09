@@ -36,13 +36,13 @@ export class AuthComponent implements OnInit {
         console.log("Access Token [" + data.access_token + "]");
         sessionStorage.setItem('myAuthRole', data.role);
         localStorage.setItem('myAuthToken', data.access_token);
-//      localStorage.setItem('myRefreshToken', data.refresh_token);
         localStorage.setItem('myRole', data.role);
         if (data.realm == 2) {
           this.router.navigate(['bonus']);
         } else {
           const url = localStorage.getItem('currGame');
           if (url) {
+            localStorage.setItem('currGame', 'launch');
             this.router.navigate([url]);
           } else {
             this.router.navigate(['launch']);

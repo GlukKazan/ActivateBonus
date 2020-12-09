@@ -1,28 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Join } from '../interface/join';
 import { Session } from '../interface/session';
 import { Style } from '../interface/style';
-import { CurrService } from './curr.service';
+import { SessionService } from './session.service';
 
 @Component({
-  selector: 'app-curr',
-  templateUrl: './curr.component.html',
-  styleUrls: ['./curr.component.css'],
-  providers: [CurrService]
+  selector: 'app-session',
+  templateUrl: './session.component.html',
+  styleUrls: ['./session.component.css'],
+  providers: [SessionService]
 })
-export class CurrComponent implements OnInit {
+export class SessionComponent implements OnInit {
+
   sessions: Array<Session>;
   styles: Array<Style>;
+  scope: number;
   
   constructor(
-    private serv: CurrService,
+    private serv: SessionService,
     private router: Router
   ) { 
     this.sessions = new Array<Session>();
     this.styles = new Array<Style>();
+    this.scope = 1;
   }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.loadStyles();
   }
 
@@ -52,8 +56,16 @@ export class CurrComponent implements OnInit {
     return s.length > 0;
   }
 
-  private loadSessions() {
-    this.serv.getSessions().subscribe((data: Session[]) => {
+  private getScope(): string {
+    if (this.scope == 1) return 'waiting';
+    if (this.scope == 2) return 'current';
+    if (this.scope == 3) return 'active';
+    if (this.scope == 4) return 'archive';
+    return 'my';
+  }
+
+  public loadSessions() {
+    this.serv.getSessions(this.getScope()).subscribe((data: Session[]) => {
       data.forEach((it: Session) => {
         const s = this.getStyles(it.game_id);
         if (s.length > 0) {
@@ -73,7 +85,28 @@ export class CurrComponent implements OnInit {
   }
 
   public join(it: Session) {
-//  if (!confirm("Join to Session?")) return;
+    if (this.scope == 1) {
+      if (!confirm("Join to Session?")) return;
+      this.serv.joinToSession(it.id).subscribe((data: Join) => {
+        this.loadSessions();
+        this.launch(it);
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 404) return;
+        if ([401, 403].includes(status)) {
+          this.router.navigate(['']);
+        } else {
+          alert("Error: " + status);
+        }
+      });
+    } else {
+      this.launch(it);
+    }
+  }
+
+  private launch(it: Session) {
+    this.scope = 1;
     let url = '/dagaz/' + it.filename;
     const s = this.styles.filter((x: Style) => { return it.style == x.id; });
     if (s.length) {
@@ -90,7 +123,7 @@ export class CurrComponent implements OnInit {
       window.location.href = url;
     }
   }
-
+    
   public delete(it: Session) {
     if (!confirm("Delele Session?")) return;
     const s = this.serv.delSessions(it.id).subscribe((data: Session) => {
@@ -105,7 +138,7 @@ export class CurrComponent implements OnInit {
       }
     });
   }
-
+    
   public isRoot() {
     const role = sessionStorage.getItem('myAuthRole');
     return role == '1';
