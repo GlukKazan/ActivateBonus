@@ -126,7 +126,7 @@ export class SessionComponent implements OnInit {
       if (!confirm("Join to Session?")) return;
       this.serv.joinToSession(it.id).subscribe((data: Join) => {
         this.loadSessions();
-        this.launch(it);
+        this.launch(it, data.filename);
       },
       (error: any) => {
         let status = error.status;
@@ -138,12 +138,12 @@ export class SessionComponent implements OnInit {
         }
       });
     } else {
-      this.launch(it);
+      this.launch(it, it.filename);
     }
   }
 
-  private launch(it: Session) {
-    let url = '/dagaz/' + it.filename;
+  private launch(it: Session, filename: string) {
+    let url = '/dagaz/' + filename;
     const s = this.styles.filter((x: Style) => { return it.style == x.id; });
     if (s.length) {
       url = url + s[0].suffix;
