@@ -19,6 +19,9 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!localStorage.getItem('myAuthToken')) {
+      localStorage.setItem('myAuthToken', '...');
+    }
     this.loadGames();
   }
 
