@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { timer } from 'rxjs';
 import { Join } from '../interface/join';
 import { Session } from '../interface/session';
@@ -18,12 +18,20 @@ export class SessionComponent implements OnInit {
   styles: Array<Style>;
   scope: number;
   
+  start_scope: number;
+  start_game: number;
+  start_var: number;
+
   constructor(
     private serv: SessionService,
-    private router: Router
+    private router: Router,
+    private activateRoute: ActivatedRoute
   ) { 
     this.sessions = new Array<Session>();
     this.styles = new Array<Style>();
+    this.start_scope = activateRoute.snapshot.params['s'];
+    this.start_game = activateRoute.snapshot.params['g'];
+    this.start_var = activateRoute.snapshot.params['v'];
     this.initScope();
   }
 
@@ -65,10 +73,15 @@ export class SessionComponent implements OnInit {
     if (this.scope == 2) return 'current';
     if (this.scope == 3) return 'active';
     if (this.scope == 4) return 'archive';
-    return 'my';
+    if (this.scope == 5) return 'my';
+    return 'all';
   }
 
   private initScope() {
+    if (this.start_scope) {
+      this.scope = this.start_scope;
+      return;
+    }
     const scope = localStorage.getItem('mySessionScope');
     if (scope) {
       this.scope = +scope;
@@ -105,7 +118,14 @@ export class SessionComponent implements OnInit {
   }
 
   public loadSessions() {
-    this.serv.getSessions(this.getScope()).subscribe((data: Session[]) => {
+    let scope = this.getScope();
+    if (this.start_game) {
+      scope = scope + '/' + this.start_game;
+      if (this.start_var) {
+        scope = scope + '/' + this.start_var;
+      }
+    }
+    this.serv.getSessions(scope).subscribe((data: Session[]) => {
       data.forEach((it: Session) => {
         this.initStyle(it);
       });

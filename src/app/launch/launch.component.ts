@@ -325,4 +325,28 @@ export class LaunchComponent implements OnInit {
       }
     });
   }
+
+  public viewPresent(param: number) {
+    if (!this.curr_game) return false;
+    let g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
+    if (this.curr_var) {
+      g = this.variants.filter((it: Game) => { return it.id == this.curr_var; });
+    }
+    if (g.length == 0) return false;
+    if (param == 1) {
+      if (!g[0].waiting) return false;
+      return g[0].waiting > 0;
+    }
+    if (!g[0].all) return false;
+    return g[0].all > 0;
+  }
+
+  public view(param: number) {
+    if (!this.curr_game) return;
+    let url = 'session/' + param + '/' + this.curr_game;
+    if (this.curr_var) {
+      url = url + '/' + this.curr_var;
+    }
+    this.router.navigate([url]);
+  }
 }

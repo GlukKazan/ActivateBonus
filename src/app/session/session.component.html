@@ -21,12 +21,13 @@
 </table>
 
 <h3>Watch sessions
-<select class="scopeCombobox" name="scope" [(ngModel)]="scope" (change)="changeFilter()">
+<select *ngIf="!start_scope" class="scopeCombobox" name="scope" [(ngModel)]="scope" (change)="changeFilter()">
     <option [value]="1">Join to session</option>
     <option [value]="2">My turn</option>
     <option [value]="3">Current games</option>
     <option [value]="4">Archive</option>
     <option [value]="5">My games</option>
+    <option [value]="6">All games</option>
 </select>
 </h3>
 <table class="table table-striped">

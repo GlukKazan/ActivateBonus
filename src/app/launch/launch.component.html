@@ -84,7 +84,9 @@
                                   <label for="ai">&nbsp;Play with AI</label>
                                 </div>
                                 <div class="form-group">
-                                  <button class="btn btn-primary" (click)="submit()">Launch</button> 
+                                  <button class="btn btn-primary" (click)="submit()">Launch</button> &nbsp;
+                                  <button *ngIf="viewPresent(1)" class="btn btn-primary" (click)="view(1)">Join</button> &nbsp;
+                                  <button *ngIf="viewPresent(6)" class="btn btn-primary" (click)="view(6)">View</button> 
                                 </div>
                             </div>
                         </div>

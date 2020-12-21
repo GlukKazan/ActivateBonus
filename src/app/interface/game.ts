@@ -13,7 +13,9 @@ export class Game {
       public variant_id: number,
       public preview: string,
       public rules: string,
-      public copyright: string
+      public copyright: string,
+      public waiting: number,
+      public all: number
     ) {}
   }
   

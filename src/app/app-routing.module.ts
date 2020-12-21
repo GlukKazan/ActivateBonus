@@ -18,6 +18,8 @@ const routes: Routes = [
   { path: 'launch/:g/:v', component: LaunchComponent, canActivate: [JwtGuard] },
   { path: 'launch/:g', component: LaunchComponent, canActivate: [JwtGuard] },
   { path: 'launch', component: LaunchComponent, canActivate: [JwtGuard] },
+  { path: 'session/:s/:g/:v', component: SessionComponent, canActivate: [JwtGuard] },
+  { path: 'session/:s/:g', component: SessionComponent, canActivate: [JwtGuard] },
   { path: 'session', component: SessionComponent, canActivate: [JwtGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [JwtGuard] },
   { path: '**', redirectTo: '/' }
