@@ -284,7 +284,7 @@ export class LaunchComponent implements OnInit {
       if (s.length == 1) {
         url = url + s[0].suffix;
       }
-      if (this.ai_selected && !g.external_ai) {
+      if (this.ai_selected && (this.checkBots(g.bots) || !g.external_ai)) {
         url = url + '-ai';
       }
       url = url + '.html?sid=' + sid;
@@ -293,7 +293,6 @@ export class LaunchComponent implements OnInit {
       }
       if (this.games) {
         this.curr_game = this.games[0].id;
-
       }
       if (url) {
         window.location.href = url;
