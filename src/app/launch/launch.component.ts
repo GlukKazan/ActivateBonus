@@ -79,8 +79,10 @@ export class LaunchComponent implements OnInit {
 
   public isAi(): boolean {
     const g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
+    if ((g.length > 0) && g[0].external_ai) return true;
     if ((g.length > 0) && g[0].bots) return this.checkBots(g[0].bots);
     const v = this.variants.filter((it: Game) => { return it.id == this.curr_var; });
+    if ((v.length > 0) && v[0].external_ai) return true;
     if ((v.length > 0) && v[0].bots) return this.checkBots(v[0].bots);
     return false;
   }
@@ -282,7 +284,7 @@ export class LaunchComponent implements OnInit {
       if (s.length == 1) {
         url = url + s[0].suffix;
       }
-      if (this.ai_selected) {
+      if (this.ai_selected && !g.external_ai) {
         url = url + '-ai';
       }
       url = url + '.html?sid=' + sid;

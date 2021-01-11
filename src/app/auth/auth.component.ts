@@ -34,7 +34,6 @@ export class AuthComponent implements OnInit {
     this.serv.auth(this.login, this.pass).subscribe(
       (data: any) => {
         console.log("Access Token [" + data.access_token + "]");
-        sessionStorage.setItem('myAuthRole', data.role);
         localStorage.setItem('myAuthToken', data.access_token);
         localStorage.setItem('myRole', data.role);
         if (data.realm == 2) {

@@ -196,7 +196,7 @@ export class SessionComponent implements OnInit {
   }
     
   public isRoot() {
-    const role = sessionStorage.getItem('myAuthRole');
+    const role = localStorage.getItem('myRole');
     return role == '1';
   }
 }

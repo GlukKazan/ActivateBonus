@@ -21,7 +21,7 @@
 </table>
 
 <h3>Watch sessions
-<select *ngIf="!start_scope" class="scopeCombobox" name="scope" [(ngModel)]="scope" (change)="changeFilter()">
+<select *ngIf="!start_game" class="scopeCombobox" name="scope" [(ngModel)]="scope" (change)="changeFilter()">
     <option [value]="1">Join to session</option>
     <option [value]="2">My turn</option>
     <option [value]="3">Current games</option>

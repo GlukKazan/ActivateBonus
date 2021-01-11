@@ -15,7 +15,8 @@ export class Game {
       public rules: string,
       public copyright: string,
       public waiting: number,
-      public all: number
+      public all: number,
+      public external_ai: number
     ) {}
   }
   
