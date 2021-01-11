@@ -284,7 +284,7 @@ export class LaunchComponent implements OnInit {
       if (s.length == 1) {
         url = url + s[0].suffix;
       }
-      if (this.ai_selected && (this.checkBots(g.bots) || !g.external_ai)) {
+      if (data.with_ai) {
         url = url + '-ai';
       }
       url = url + '.html?sid=' + sid;
