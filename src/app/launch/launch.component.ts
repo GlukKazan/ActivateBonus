@@ -79,11 +79,23 @@ export class LaunchComponent implements OnInit {
 
   public isAi(): boolean {
     const g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
-    if ((g.length > 0) && g[0].external_ai) return true;
-    if ((g.length > 0) && g[0].bots) return this.checkBots(g[0].bots);
+    if (g.length > 0) {
+      if (g[0].no_ai) {
+        const no_ai = ',' + g[0].no_ai + ',';
+        if (no_ai.indexOf(',' + this.selector + ',') >= 0) return false;
+      }
+      if (g[0].external_ai) return true;
+      if (g[0].bots) return this.checkBots(g[0].bots);
+    }
     const v = this.variants.filter((it: Game) => { return it.id == this.curr_var; });
-    if ((v.length > 0) && v[0].external_ai) return true;
-    if ((v.length > 0) && v[0].bots) return this.checkBots(v[0].bots);
+    if (v.length > 0) {
+      if (v[0].no_ai) {
+        const no_ai = ',' + v[0].no_ai + ',';
+        if (no_ai.indexOf(',' + this.selector + ',') >= 0) return false;
+      }
+      if (v[0].external_ai) return true;
+      if (v[0].bots) return this.checkBots(v[0].bots);
+    }
     return false;
   }
 
