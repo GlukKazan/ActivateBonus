@@ -77,34 +77,35 @@ export class LaunchComponent implements OnInit {
     bots.split(',').forEach((s) => {
       if (this.checkBot(s)) r = true;
     });
+    if (!r) {
+      this.ai_selected = false;
+    }
     return r;
   }
 
   public isAi(): boolean {
-    const f = this.ai_selected;
     const g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
-    this.ai_selected = false;
     if (g.length > 0) {
       if (g[0].no_ai) {
         const no_ai = ',' + g[0].no_ai + ',';
-        if (no_ai.indexOf(',' + this.selector + ',') >= 0) return false;
+        if (no_ai.indexOf(',' + this.selector + ',') >= 0) {
+          this.ai_selected = false;
+          return false;
+        }
       }
-      if (g[0].external_ai) {
-        this.ai_selected = f;
-        return true;
-      }
+      if (g[0].external_ai) return true;
       if (g[0].bots) return this.checkBots(g[0].bots);
     }
     const v = this.variants.filter((it: Game) => { return it.id == this.curr_var; });
     if (v.length > 0) {
       if (v[0].no_ai) {
         const no_ai = ',' + v[0].no_ai + ',';
-        if (no_ai.indexOf(',' + this.selector + ',') >= 0) return false;
+        if (no_ai.indexOf(',' + this.selector + ',') >= 0) {
+          this.ai_selected = false;
+          return false;
+        }
       }
-      if (v[0].external_ai) {
-        this.ai_selected = f;
-        return true;
-      }
+      if (v[0].external_ai) return true;
       if (v[0].bots) return this.checkBots(v[0].bots);
     }
     return false;
