@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Game } from '../interface/game';
 import { Preview } from '../interface/preview';
 import { Session } from '../interface/session';
+import { Setup } from '../interface/setup';
 import { Style } from '../interface/style';
 import { LaunchService } from './launch.service';
 
@@ -28,6 +29,7 @@ export class LaunchComponent implements OnInit {
   max_selector: number;
   preview: Preview;
   ai_selected: boolean;
+  setups: Array<Setup>;
 
   start_game: number;
   start_var: number;
@@ -46,6 +48,7 @@ export class LaunchComponent implements OnInit {
     this.curr_style = null;
     this.player_num = 1;
     this.players_total = 0;
+    this.setups = new Array<Setup>();
     this.selector = 0;
     this.max_selector = 0;
     this.preview = null;
@@ -78,13 +81,18 @@ export class LaunchComponent implements OnInit {
   }
 
   public isAi(): boolean {
+    const f = this.ai_selected;
     const g = this.games.filter((it: Game) => { return it.id == this.curr_game; });
+    this.ai_selected = false;
     if (g.length > 0) {
       if (g[0].no_ai) {
         const no_ai = ',' + g[0].no_ai + ',';
         if (no_ai.indexOf(',' + this.selector + ',') >= 0) return false;
       }
-      if (g[0].external_ai) return true;
+      if (g[0].external_ai) {
+        this.ai_selected = f;
+        return true;
+      }
       if (g[0].bots) return this.checkBots(g[0].bots);
     }
     const v = this.variants.filter((it: Game) => { return it.id == this.curr_var; });
@@ -93,7 +101,10 @@ export class LaunchComponent implements OnInit {
         const no_ai = ',' + v[0].no_ai + ',';
         if (no_ai.indexOf(',' + this.selector + ',') >= 0) return false;
       }
-      if (v[0].external_ai) return true;
+      if (v[0].external_ai) {
+        this.ai_selected = f;
+        return true;
+      }
       if (v[0].bots) return this.checkBots(v[0].bots);
     }
     return false;
@@ -107,12 +118,26 @@ export class LaunchComponent implements OnInit {
     return r;
   }
 
-  public getSelectors() {
-    let r = new Array<number>();
-    for (let i = 1; i <= this.max_selector; i++) {
-      r.push(i);
-    }
-    return r;
+  private loadSetups() {
+    this.serv.getSetups(this.curr_game, this.curr_var).subscribe((data: Setup[]) => {
+      this.setups = data;
+      if (this.setups.length == 0) {
+        for (let i = 1; i <= this.max_selector; i++) {
+          this.setups.push(new Setup(this.curr_game, this.curr_var, i, i.toString()));
+        }
+      }
+      if (this.setups.length > 0) {
+        this.selector = data[0].selector_value;
+      }
+    },
+    (error: any) => {
+      let status = error.status;
+      if ([401, 403].includes(status)) {
+        this.router.navigate(['']);
+      } else {
+        alert("Error: " + status);
+      }
+    });
   }
 
   private loadGames() {
@@ -142,6 +167,7 @@ export class LaunchComponent implements OnInit {
           }
           this.loadVars();
           this.loadStyles();
+          this.loadSetups();
         }
     },
     (error: any) => {
@@ -170,6 +196,7 @@ export class LaunchComponent implements OnInit {
     this.curr_var = null;
     this.loadVars();
     this.loadStyles();
+    this.loadSetups();
   }
 
   private initStyle() {
@@ -246,6 +273,7 @@ export class LaunchComponent implements OnInit {
           }
       }
       this.loadPreview();
+      this.loadSetups();
     },
     (error: any) => {
       let status = error.status;
@@ -270,7 +298,8 @@ export class LaunchComponent implements OnInit {
         }
         this.ai_selected = false;
         this.loadPreview();
-    }
+        this.loadSetups();
+      }
   }
 
   private getGame(): Game {

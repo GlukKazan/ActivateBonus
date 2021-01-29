@@ -64,10 +64,10 @@
                                   </select>
                                 </div>
                                 <div *ngIf="max_selector" class="form-group">
-                                  <label>Setup</label>
+                                  <label>Arrangement</label>
                                   <select class="form-control" name="selector" [(ngModel)]="selector" (change)="loadPreview()">
-                                      <option *ngFor="let it of getSelectors()" [value]="it">
-                                          {{ it }}
+                                      <option *ngFor="let it of setups" [value]="it.selector_value">
+                                          {{ it.name }}
                                       </option>
                                   </select>
                                 </div>

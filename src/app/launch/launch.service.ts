@@ -18,6 +18,14 @@ export class LaunchService {
     return this.http.get(this.game + '/' + game + '/variants');
   } 
 
+  getSetups(game: number, variant): Observable<Object> {
+    if (variant) {
+      return this.http.get(this.game + '/setups/' + game + '/' + variant);
+    } else {
+      return this.http.get(this.game + '/setups/' + game);
+    }
+  } 
+
   getStyles(game: number): Observable<Object> {
     return this.http.get(this.game + '/' + game + '/styles');
   } 
