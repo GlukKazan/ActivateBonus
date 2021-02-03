@@ -29,8 +29,27 @@ export class AuthComponent implements OnInit {
     }
   }
 
+  canRecovery(): boolean {
+    return localStorage.getItem('myAuthToken') !== null;
+  }
+
+  recovery(): void {
+    const t = localStorage.getItem('myAuthToken');
+    this.serv.recovery(t).subscribe(
+      (data: any) => {
+        console.log("Access Token [" + data.access_token + "]");
+        localStorage.setItem('myAuthToken', data.access_token);
+        localStorage.setItem('myRole', data.role);
+        this.router.navigate(['profile']);
+      },
+      (error: any) => {
+        alert("Password recovery failed");
+      }
+    );
+  }
+
   submit(): void {
-    localStorage.removeItem('myAuthToken');
+//  localStorage.removeItem('myAuthToken');
     this.serv.auth(this.login, this.pass).subscribe(
       (data: any) => {
         console.log("Access Token [" + data.access_token + "]");

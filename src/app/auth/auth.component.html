@@ -26,6 +26,7 @@
                         required
                     />
                </div>
+               <a class="pull-right" (click)="recovery()" *ngIf="canRecovery()">Recovery Password</a>
                <div class="form-group">
                    <button
                         class="btn btn-primary"
@@ -33,7 +34,7 @@
                         (click)="submit()"
                   >Log In</button> 
                </div>
-         </div>
+            </div>
        </div>
     </div>
 </div>
